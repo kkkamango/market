@@ -1,19 +1,17 @@
 package com.kkkamango.market.model.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.kkkamango.market.model.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -25,7 +23,7 @@ import java.time.LocalDateTime;
 /**
  * 회원 계정 entity
  */
-public class UserAccountEntity extends BaseEntity implements Serializable {
+public class UserAccountEntity implements Serializable {
     @Id
     /**
      * 회원 계정 pk
@@ -63,9 +61,12 @@ public class UserAccountEntity extends BaseEntity implements Serializable {
     /**
      * 마지막 비밀번호 변경 일시
      */
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    @Column(updatable = false)
-    private String lastPasswordResetDate;
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+//    @Column(updatable = false)
+//    private String lastPasswordResetDate;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Convert(converter = Jsr310JpaConverters.LocalDateConverter.class)
+    private LocalDate lastPasswordResetDate;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @CreatedDate
